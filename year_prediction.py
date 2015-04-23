@@ -38,33 +38,47 @@ def compute_rmse(pred, actual):
     sum = sum/len(pred)
     return math.sqrt(sum)
 
-def regression():
-    train = np.load(TRAIN_DATA)
+def regression(method, train_location=TRAIN_DATA, test_location=TEST_DATA):
+    train = np.load(train_location)
 
     #Get the required training data
     x_data = train[:, 1:]  #All but the first column
     y_class = train[:, 0]
 
-    print "Loading data"
+    print "Loading data: " + method
     #Get the test data
-    test = np.load(TEST_DATA)
+    test = np.load(test_location)
     test_data = test[:, 1:]
 
-    regress = SVR()
+    if(method == "svr"):
+        regress = SVR()
+    elif(method == "tree"):
+        regress = DecisionTreeRegressor()
+    elif(method == "forest"):
+        regress = ensemble.RandomForestRegressor()
+    elif (method == "knn"):
+        regress = neighbors.KNeighborsRegressor()
+
+
     print "Training"
     regress.fit(x_data, y_class)
 
     print "Prediction"
     out = regress.predict(test_data)
-    output(out)
+    #output(out)
 
     x = compute_rmse(out, test_data[:,0])
     print "RMSE: " + str(x)
+
+    fp = open("output_" + method + ".txt","w")
+    fp.write("RMSE: " + method + " :" + str(x))
+    fp.close()
+
 
 
 
 if __name__ == "__main__":
     t1 = time()
-    regression()
+    regression(sys.argv[1])
     t2 = time()
     print 'Time taken in seconds: %f' % (t2 - t1)
