@@ -60,15 +60,15 @@ def regression(method, train_location=TRAIN_DATA, test_location=TEST_DATA):
         regress = neighbors.KNeighborsRegressor()
 
 
-    print "Training"
+    print "Training " + method
     regress.fit(x_data, y_class)
 
-    print "Prediction"
+    print "Prediction " + method
     out = regress.predict(test_data)
     #output(out)
 
     x = compute_rmse(out, test_data[:,0])
-    print "RMSE: " + str(x)
+    print "RMSE: " + method + " :" + str(x)
 
     fp = open("output_" + method + ".txt","w")
     fp.write("RMSE: " + method + " :" + str(x))
