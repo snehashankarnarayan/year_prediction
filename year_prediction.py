@@ -30,9 +30,9 @@ def get_hyperparams_svr(x_data, y_class):
 
     #Specify the values being searched over
     kernel_list = ['rbf']
-    gamma_list = [0.0001, 0.001, 0.001, 0, 0.01]
-    epsilon_list = [0, 0.01, 0.1, 0.2, 0.5]
-    C_list = [1,0.2,0.3,0.4,0.5]
+    gamma_list = [0.0001, 0.005, 0.001, 0, 0.01, 0,2]
+    epsilon_list = [0, 0.01, 0.1,0.0001, 0.005, 0.001 ]
+    C_list = [0.001, 0.01, 0.05, 0.1,0.2,0,1]
 
     #Variables to store the final hyperparameters
     min_score = 9999.00
