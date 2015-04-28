@@ -151,20 +151,23 @@ def regression(method, train_location=TRAIN_DATA, test_location=TEST_DATA, verbo
     test = np.load(test_location)
     test_data = test[:, 1:]
 
-    print "Do PCA"
-    #Do PCA
-    pca = decomposition.KernelPCA()
-    x_data = pca.fit_transform(x_data)
-    test_data = pca.transform(test_data)
+    # print "Do PCA"
+    # #Do PCA
+    # pca = decomposition.PCA(n_components = 'mle')
+    # x_data = pca.fit_transform(x_data)
+    # test_data = pca.transform(test_data)
 
 
 
     if(method == "svr"):
-        #C, gamma, kernel, epsilon = get_hyperparams_svr(x_data, y_class)
-        #regress = SVR(kernel=kernel, C = C, gamma = gamma, epsilon=epsilon)
-        #parameters = {'kernel':['rbf'], 'C':[1,0.2,0.3,0.4,0.5], 'gamma': [0.0001, 0.001, 0.001, 0, 0.01], 'epsilon' :[0, 0.01, 0.1, 0.2, 0.5]}
         regress = svr = SVR(C=0.2,gamma= 0.01,kernel='rbf',epsilon=0.01)
-        #regress = grid_search.GridSearchCV(svr, parameters)
+        max_k = backwardStepwiseSelection(regress, x_data, y_class)
+        x_data = np.delete(x_data, max_k, 1)
+        test_data = np.delete(test_data, max_k, 1)
+        C, gamma, kernel, epsilon = get_hyperparams_svr(x_data, y_class)
+        regress = SVR(kernel=kernel, C = C, gamma = gamma, epsilon=epsilon)
+        #parameters = {'kernel':['rbf'], 'C':[1,0.2,0.3,0.4,0.5], 'gamma': [0.0001, 0.001, 0.001, 0, 0.01], 'epsilon' :[0, 0.01, 0.1, 0.2, 0.5]}
+
     elif(method == "tree"):
         regress = DecisionTreeRegressor()
     elif(method == "forest"):
@@ -173,9 +176,6 @@ def regression(method, train_location=TRAIN_DATA, test_location=TEST_DATA, verbo
         regress = neighbors.KNeighborsRegressor()
     elif (method == "lin"):
         regress = RidgeCV()
-        #max_k = backwardStepwiseSelection(regress, x_data, y_class)
-        #x_data = np.delete(x_data, max_k, 1)
-        #test_data = np.delete(test_data, max_k, 1)
     elif(method == "sgd"):
         regress = SGDRegressor()
 
