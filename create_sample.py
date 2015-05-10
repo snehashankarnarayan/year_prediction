@@ -4,8 +4,8 @@ __author__ = 'snehas'
 import numpy as np
 import random
 
-TRAIN_DATA = "/Users/snehas/data/msd_dataset/train.npy"
-TEST_DATA = "/Users/snehas/data/msd_dataset/test.npy"
+TRAIN_DATA = "/Users/snehas/data/year_prediction/train_unscale.npy"
+TEST_DATA = "/Users/snehas/data/year_prediction/test_unscale.npy"
 
 train = np.load(TRAIN_DATA)
 test = np.load(TEST_DATA)
@@ -22,5 +22,5 @@ num_test = 1000
 train_sample = random.sample(train, num_train)
 test_sample = random.sample(test, num_test)
 
-np.save("train_sample.npy", train_sample)
-np.save("test_sample.npy", test_sample)
+np.save("train_unscale.npy", train_sample)
+np.save("test_unscale.npy", test_sample)

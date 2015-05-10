@@ -7,7 +7,7 @@ import math
 from time import time
 import csv
 from pprint import pprint
-from sklearn import neighbors
+from sklearn import datasets
 from sklearn import svm
 from sklearn.svm import SVR
 from sklearn import ensemble
@@ -22,39 +22,15 @@ from sklearn.cross_validation import *
 TRAIN_DATA = "/Users/snehas/data/msd_dataset/train_sample.npy"
 TEST_DATA = "/Users/snehas/data/msd_dataset/test_sample.npy"
 
-
-train_file = open("train_dataset", "w")
-test_file = open("test_dataset", "w")
-
 train = np.load(TRAIN_DATA)
+x_data = train[:, 1:]  #All but the first column
+y_class = train[:, 0]
+datasets.dump_svmlight_file(x_data,y_class, "train_sample_svmlight", zero_based=False)
+
 test = np.load(TEST_DATA)
-
-
-
-lines = list()
-
-for elem in train:
-    line = str(elem[0]) + " | "
-    for i in range(1,len(elem)):
-        line = line + " " + str(elem[i])
-    line = line + '\n'
-    lines.append(line)
-
-train_file.writelines(lines)
-
-lines = list()
-for elem in test:
-    line = str(elem[0]) + " | "
-    for i in range(1,len(elem)):
-        line = line + " " + str(elem[i])
-    line = line + '\n'
-    lines.append(line)
-
-test_file.writelines(lines)
-
-
-
-
+x_data = test[:, 1:]  #All but the first column
+y_class = test[:, 0]
+datasets.dump_svmlight_file(x_data,y_class, "test_sample_svmlight", zero_based=False)
 
 
 

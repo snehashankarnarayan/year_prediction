@@ -20,9 +20,9 @@ from sklearn.cross_validation import *
 def compute_rmse(pred, actual):
     return np.sqrt(((pred - actual) ** 2).mean())
 
-test_location = "/Users/snehas/data/msd_dataset/test.npy"
-pred_location = "/Users/snehas/vagroot/shared_files/data/test.pred"
-
+test_location = "/Users/snehas/data/msd_dataset/test_sample.npy"
+#pred_location = "/Users/snehas/vagroot/shared_files/data/test.pred"
+pred_location = "/Users/snehas/Downloads/svm_light_osx.8.4_i7/svm_out.txt"
 test = np.load(test_location)
 pred = open(pred_location,"r")
 test_values = test[:,0]
